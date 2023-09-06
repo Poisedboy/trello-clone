@@ -23,8 +23,8 @@ export async function GET (req: Request) {
 };
 
 export async function POST(req: Request) {
-    const bodyRow = await req.json();
-    const validateBody = createColumnDto.safeParse(bodyRow);
+    const bodyRaw = await req.json();
+    const validateBody = createColumnDto.safeParse(bodyRaw);
     
     if(!validateBody.success) {
         return NextResponse.json(validateBody.error.issues, {status: 400});

@@ -10,8 +10,8 @@ interface ColumnRouteContext {
 
 export async function PUT(req: Request, {params}: ColumnRouteContext) {
     const {id} = params;
-    const bodyRow = await req.json();
-    const validateBody = updateColumnDto.safeParse(bodyRow);
+    const bodyRaw = await req.json();
+    const validateBody = updateColumnDto.safeParse(bodyRaw);
 
     if(!validateBody.success) {
         return NextResponse.json(validateBody.error.issues, { status: 400});
