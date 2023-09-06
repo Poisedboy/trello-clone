@@ -8,3 +8,8 @@ export const createCardDto = z.object({
 export const updateCardDto = createCardDto.extend({
     description: z.string().nullable(),
 }).partial();
+
+export const updateCardsOrderDto = z.array(z.object({
+    id: z.string().uuid(),
+    order: z.number(),
+}));
