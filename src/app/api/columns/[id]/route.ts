@@ -8,13 +8,13 @@ interface ColumnRouteContext {
     },
 };
 
-export async function PUT(req: Request, {params}: ColumnRouteContext) {
-    const {id} = params;
+export async function PATCH(req: Request, { params }: ColumnRouteContext) {
+    const { id } = params;
     const bodyRaw = await req.json();
     const validateBody = updateColumnDto.safeParse(bodyRaw);
 
-    if(!validateBody.success) {
-        return NextResponse.json(validateBody.error.issues, { status: 400});
+    if (!validateBody.success) {
+        return NextResponse.json(validateBody.error.issues, { status: 400 });
     };
 
     const findColumn = await prisma.columns.findUnique({
@@ -23,8 +23,8 @@ export async function PUT(req: Request, {params}: ColumnRouteContext) {
         },
     });
 
-    if(!findColumn) {
-        return NextResponse.json({code: 'not_found', message: 'Column not found!'});
+    if (!findColumn) {
+        return NextResponse.json({ code: 'not_found', message: 'Column not found!' });
     };
 
     const column = await prisma.columns.update({
@@ -36,8 +36,8 @@ export async function PUT(req: Request, {params}: ColumnRouteContext) {
     return NextResponse.json(column);
 };
 
-export async function DELETE (req: Request, {params}: ColumnRouteContext) {
-    const {id} = params;
+export async function DELETE(req: Request, { params }: ColumnRouteContext) {
+    const { id } = params;
 
     const findColumn = await prisma.columns.findUnique({
         where: {
@@ -45,8 +45,8 @@ export async function DELETE (req: Request, {params}: ColumnRouteContext) {
         },
     });
 
-    if(!findColumn) {
-        return NextResponse.json({code: 'not_found', message: 'Column not found!'});
+    if (!findColumn) {
+        return NextResponse.json({ code: 'not_found', message: 'Column not found!' });
     };
 
     await prisma.columns.delete({
@@ -54,5 +54,5 @@ export async function DELETE (req: Request, {params}: ColumnRouteContext) {
             id,
         },
     });
-    return NextResponse.json({}, {status: 200});
+    return NextResponse.json({}, { status: 200 });
 };

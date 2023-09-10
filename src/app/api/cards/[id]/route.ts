@@ -8,13 +8,13 @@ interface CardRouteContext {
     },
 };
 
-export async function PUT(req: Request, {params}: CardRouteContext) {
-    const {id} = params;
+export async function PATCH(req: Request, { params }: CardRouteContext) {
+    const { id } = params;
     const bodyRaw = await req.json();
     const validateBody = updateCardDto.safeParse(bodyRaw);
 
-    if(!validateBody.success) {
-        return NextResponse.json(validateBody.error.issues, { status: 400});
+    if (!validateBody.success) {
+        return NextResponse.json(validateBody.error.issues, { status: 400 });
     };
 
     const findCard = await prisma.cards.findUnique({
@@ -23,8 +23,8 @@ export async function PUT(req: Request, {params}: CardRouteContext) {
         },
     });
 
-    if(!findCard) {
-        return NextResponse.json({code: 'not_found', message: 'Card not found!'});
+    if (!findCard) {
+        return NextResponse.json({ code: 'not_found', message: 'Card not found!' });
     };
 
     const card = await prisma.cards.update({
@@ -36,8 +36,8 @@ export async function PUT(req: Request, {params}: CardRouteContext) {
     return NextResponse.json(card);
 };
 
-export async function DELETE (req: Request, {params}: CardRouteContext) {
-    const {id} = params;
+export async function DELETE(req: Request, { params }: CardRouteContext) {
+    const { id } = params;
 
     const findCard = await prisma.cards.findUnique({
         where: {
@@ -45,8 +45,8 @@ export async function DELETE (req: Request, {params}: CardRouteContext) {
         },
     });
 
-    if(!findCard) {
-        return NextResponse.json({code: 'not_found', message: 'Card not found!'});
+    if (!findCard) {
+        return NextResponse.json({ code: 'not_found', message: 'Card not found!' });
     };
 
     await prisma.cards.delete({
@@ -54,5 +54,5 @@ export async function DELETE (req: Request, {params}: CardRouteContext) {
             id,
         },
     });
-    return NextResponse.json({}, {status: 200});
+    return NextResponse.json({}, { status: 200 });
 };

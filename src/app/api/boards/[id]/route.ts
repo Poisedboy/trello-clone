@@ -9,25 +9,25 @@ interface BoardRouteContext {
     }
 }
 
-export async function PUT (req: Request, {params}: BoardRouteContext) {
-    const {id} = params;
+export async function PATCH(req: Request, { params }: BoardRouteContext) {
+    const { id } = params;
     const bodyRow = await req.json();
     const validateBody = createBoardsDto.safeParse(bodyRow);
 
-    if(!validateBody.success) {
-        return NextResponse.json(validateBody.error.issues, {status: 400})
+    if (!validateBody.success) {
+        return NextResponse.json(validateBody.error.issues, { status: 400 })
     };
 
-    const findBoard = await prisma.boards.findUnique({ 
-        where: { 
-            id 
-        } 
+    const findBoard = await prisma.boards.findUnique({
+        where: {
+            id
+        }
     });
-    if(!findBoard) {
+    if (!findBoard) {
         return NextResponse.json({
             "code": "not_fond",
             "message": "Board not found",
-          })
+        })
     };
     const updatedBoard = await prisma.boards.update({
         where: {
@@ -38,24 +38,24 @@ export async function PUT (req: Request, {params}: BoardRouteContext) {
     return NextResponse.json(updatedBoard);
 };
 
-export async function DELETE (req: Request, {params}: BoardRouteContext) {
-    const {id} = params;
+export async function DELETE(req: Request, { params }: BoardRouteContext) {
+    const { id } = params;
 
-    const findBoard = await prisma.boards.findUnique({ 
-        where: { 
-            id 
-        } 
+    const findBoard = await prisma.boards.findUnique({
+        where: {
+            id
+        }
     });
-    if(!findBoard) {
+    if (!findBoard) {
         return NextResponse.json({
             "code": "not_fond",
             "message": "Board not found",
-          })
+        })
     };
     await prisma.boards.delete({
         where: {
             id
         }
     });
-    return NextResponse.json({}, {status: 200});
+    return NextResponse.json({}, { status: 200 });
 }
