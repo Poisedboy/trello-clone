@@ -1,6 +1,7 @@
-import { NavBar } from './components';
+import { NavBar } from '../components';
 import './globals.css';
 import type { Metadata } from 'next';
+import { ReactQueryProvider } from '../providers';
 
 export const metadata: Metadata = {
   title: 'Trello Clone',
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className='dark bg-gray-900'>
-        <NavBar />
-        {children}
+        <ReactQueryProvider>
+          <NavBar />
+          {children}
+        </ReactQueryProvider>
       </body>
     </html>
   )
