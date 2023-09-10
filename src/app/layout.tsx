@@ -1,3 +1,4 @@
+import { NavBar } from './components';
 import './globals.css';
 import type { Metadata } from 'next';
 
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className='dark bg-gray-900'>{children}</body>
+      <body className='dark bg-gray-900'>
+        <NavBar />
+        {children}
+      </body>
     </html>
   )
 }
